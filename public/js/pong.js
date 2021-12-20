@@ -22,16 +22,16 @@ app.onInit = function () {
         id: 'left-paddle',
         x: app.width / 30,
         y: app.height / 2 - app.height / 8,
-        width: app.width / 40,
+        width: app.width / 80,
         height: app.height / 4,
         color: 'red',
     });
 
     this.nodes.push({
         id: 'right-paddle',
-        x: app.width - app.width / 30 - app.width / 40,
+        x: app.width - app.width / 30 - app.width / 80,
         y: app.height / 2 - app.height / 8,
-        width: app.width / 40,
+        width: app.width / 80,
         height: app.height / 4,
         color: 'red',
     })
@@ -71,14 +71,14 @@ app.onUpdate = function (time) {
             }
 
             if (object_collision(ball, paddle)) {
-                paddle.x += 1;
                 ball.direction[0] *= -1;
+                let offset_factor = 0.0025 * ((ball.y - ball.height/2) - (paddle.y - paddle.height/2));
+                ball.direction[1] += offset_factor;
                 ball.x += ball.direction[0] * time;
             }
         }
 
     }
-    //this.getNode('red-box').x += this.getNode('red-box').direction;
 };
 
 addEventListener('keydown', function (ev) {

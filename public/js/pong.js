@@ -36,7 +36,7 @@ app.onInit = function () {
         color: 'red',
     })
 
-    let angle = Math.random() * 2 * Math.PI
+    let direction = Math.random();
     this.nodes.push({
         id: 'ball',
         x: app.width / 2 - app.width / 64,
@@ -44,7 +44,7 @@ app.onInit = function () {
         width: app.width / 32,
         height: app.width / 32,
         color: 'black',
-        direction: [Math.sin(angle) * ball_speed * app.width / 1000, Math.cos(angle) * ball_speed * app.height / 1000]
+        direction: [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000]
     });
 
 };
@@ -55,7 +55,7 @@ app.onUpdate = function (time) {
         ball.x += ball.direction[0] * time;
         ball.y += ball.direction[1] * time;
 
-        if (ball.y < 0 || ball.y > app.height) {
+        if (ball.y < 0 || ball.y + ball.height > app.height) {
             ball.direction[1] *= -1;
             ball.y += ball.direction[1] * time;
         }
@@ -72,8 +72,15 @@ app.onUpdate = function (time) {
 
             if (object_collision(ball, paddle)) {
                 ball.direction[0] *= -1;
-                let offset_factor = 0.0025 * ((ball.y - ball.height/2) - (paddle.y - paddle.height/2));
+                let offset_factor = 0.0025 * ((ball.y - ball.height / 2) - (paddle.y - paddle.height / 2));
                 ball.direction[1] += offset_factor;
+
+                if (ball.direction[1] > 3 * ball_speed * app.height / 10000) {
+                    ball.direction[1] = 3 * ball_speed * app.height / 10000;
+                } else if (ball.direction[1] < 3 * -ball_speed * app.height / 10000) {
+                    ball.direction[1] = 3 * -ball_speed * app.height / 10000;
+                }
+
                 ball.x += ball.direction[0] * time;
             }
         }

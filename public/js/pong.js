@@ -70,12 +70,12 @@ app.onUpdate = function (time) {
         }
 
         if (ball.x + ball.width < 0) {
-            console.log("score ", app.score);
-            app.score[0] += 1;
+            app.score[1] += 1;
+            console.log("score ", JSON.stringify(app.score));
             resetBall(ball);
         } else if (ball.x > app.width) {
-            app.score[1] += 1;
-            console.log("score ", app.score);
+            app.score[0] += 1;
+            console.log("score ", JSON.stringify(app.score));
             resetBall(ball);
         }
 

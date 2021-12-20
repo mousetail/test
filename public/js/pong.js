@@ -1,4 +1,14 @@
-const ball_speed = 1.5
+const ball_speed = 0.75
+
+function object_collision(ob1, ob2) {
+    return (
+        (ob1.x < ob2.x && ob1.x + ob1.width > ob2.x ||
+            ob1.x > ob2.x && ob1.x < ob2.x + ob2.width
+        ) &&
+        (ob1.y < ob2.y && ob1.y + ob1.height > ob2.y ||
+            ob1.y > ob2.y && ob1.y < ob2.y + ob2.height)
+    )
+}
 
 app.onInit = function () {
     app.width = window.innerWidth;
@@ -49,16 +59,24 @@ app.onUpdate = function (time) {
             ball.direction[1] *= -1;
             ball.y += ball.direction[1] * time;
         }
-    }
 
-    let paddles = [this.getNode('left-paddle'), this.getNode('right-paddle')];
-    for (let paddle of paddles) {
-        if (paddle.up_pressed) {
-            paddle.y -= time * app.height * 0.0025;
+
+        let paddles = [this.getNode('left-paddle'), this.getNode('right-paddle')];
+        for (let paddle of paddles) {
+            if (paddle.up_pressed) {
+                paddle.y -= time * app.height * 0.0025;
+            }
+            if (paddle.down_pressed) {
+                paddle.y += time * app.height * 0.0025;
+            }
+
+            if (object_collision(ball, paddle)) {
+                paddle.x += 1;
+                ball.direction[0] *= -1;
+                ball.x += ball.direction[0] * time;
+            }
         }
-        if (paddle.down_pressed) {
-            paddle.y += time * app.height * 0.0025;
-        }
+
     }
     //this.getNode('red-box').x += this.getNode('red-box').direction;
 };

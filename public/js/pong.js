@@ -1,3 +1,5 @@
+const ball_speed = 1.5
+
 app.onInit = function () {
     app.width = window.innerWidth;
     app.height = window.innerHeight;
@@ -13,7 +15,6 @@ app.onInit = function () {
         width: app.width / 40,
         height: app.height / 4,
         color: 'red',
-        direction: 0
     });
 
     this.nodes.push({
@@ -23,28 +24,32 @@ app.onInit = function () {
         width: app.width / 40,
         height: app.height / 4,
         color: 'red',
-        direction: 0
     })
 
+    let angle = Math.random() * 2 * Math.PI
     this.nodes.push({
         id: 'ball',
         x: app.width / 2 - app.width/64,
         y: app.height / 2 - app.height/64,
         width: app.width/32,
         height: app.width/32,
-        color: 'black'
+        color: 'black',
+        direction: [Math.sin(angle) * ball_speed * app.width / 1000, Math.cos(angle) * ball_speed * app.height /1000]
     });
 
 };
 
 app.onUpdate = function (time) {
-    this.getNode('black-box').y++;
+    let ball = this.getNode('ball');
+    if (ball.id) {
+        ball.x += ball.direction[0] * time;
+        ball.y += ball.direction[1] * time;
 
-    if (Math.cos(this.timestamp / 100) > 0) {
-        this.getNode('red-box').direction = -1;
-    } else {
-        this.getNode('red-box').direction = 1;
+        if (ball.y < 0 || ball.y > app.height) {
+            ball.direction[1]*=-1;
+        }
     }
 
-    this.getNode('red-box').x += this.getNode('red-box').direction;
+
+    //this.getNode('red-box').x += this.getNode('red-box').direction;
 };

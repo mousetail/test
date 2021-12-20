@@ -47,7 +47,16 @@ app.onInit = function () {
         direction: [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000]
     });
 
+    app.score = [0, 0]
 };
+
+function resetBall(ball) {
+    ball.x = app.width / 2 - app.width / 64;
+    ball.y = app.height / 2 - app.height / 64;
+
+    let direction = Math.random();
+    ball.direction = [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000];
+}
 
 app.onUpdate = function (time) {
     let ball = this.getNode('ball');
@@ -60,6 +69,15 @@ app.onUpdate = function (time) {
             ball.y += ball.direction[1] * time;
         }
 
+        if (ball.x + ball.width < 0) {
+            console.log("score ", app.score);
+            app.score[0] += 1;
+            resetBall(ball);
+        } else if (ball.x > app.width) {
+            app.score[1] += 1;
+            console.log("score ", app.score);
+            resetBall(ball);
+        }
 
         let paddles = [this.getNode('left-paddle'), this.getNode('right-paddle')];
         for (let paddle of paddles) {
@@ -75,10 +93,10 @@ app.onUpdate = function (time) {
                 let offset_factor = 0.0025 * ((ball.y - ball.height / 2) - (paddle.y - paddle.height / 2));
                 ball.direction[1] += offset_factor;
 
-                if (ball.direction[1] > 3 * ball_speed * app.height / 10000) {
-                    ball.direction[1] = 3 * ball_speed * app.height / 10000;
-                } else if (ball.direction[1] < 3 * -ball_speed * app.height / 10000) {
-                    ball.direction[1] = 3 * -ball_speed * app.height / 10000;
+                if (ball.direction[1] > 6 * ball_speed * app.height / 10000) {
+                    ball.direction[1] = 6 * ball_speed * app.height / 10000;
+                } else if (ball.direction[1] < 6 * -ball_speed * app.height / 10000) {
+                    ball.direction[1] = 6 * -ball_speed * app.height / 10000;
                 }
 
                 ball.x += ball.direction[0] * time;

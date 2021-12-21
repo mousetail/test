@@ -1,4 +1,4 @@
-const ball_speed = 0.75
+const ball_speed = 1.2
 
 function object_collision(ob1, ob2) {
     return (
@@ -8,6 +8,20 @@ function object_collision(ob1, ob2) {
         (ob1.y < ob2.y && ob1.y + ob1.height > ob2.y ||
             ob1.y > ob2.y && ob1.y < ob2.y + ob2.height)
     )
+}
+
+function ellipseCollision(paddle, ball) {
+    let offset = [
+        (ball.x + ball.width / 2 - paddle.x - paddle.width / 2) / (paddle.width * 2),
+        (ball.y + ball.height / 2 - paddle.y - paddle.height / 2) / (paddle.height)];
+    let angle = Math.atan2(offset[0], offset[1]);
+    let tangent = [Math.sin(angle + Math.PI / 2) * paddle.width, Math.cos(angle + Math.PI / 2) * paddle.height];
+    let normal = [-tangent[1], tangent[0]]
+    let normal_distance = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+    let normal_normalized = [normal[0] / normal_distance, normal[1] / normal_distance];
+    let normal_dot_ball = normal_normalized[0] * ball.direction[0] + normal_normalized[1] * ball.direction[1] //Dot product
+    ball.direction[0] -= 2 * normal_dot_ball * normal_normalized[0];
+    ball.direction[1] -= 2 * normal_dot_ball  * normal_normalized[1];
 }
 
 app.onInit = function () {
@@ -41,7 +55,6 @@ app.onInit = function () {
         height: app.height,
         color: 'black'
     });
-
 
 
     this.nodes.push({
@@ -162,15 +175,7 @@ app.onUpdate = function (time) {
             }
 
             if (object_collision(ball, paddle)) {
-                ball.direction[0] *= -1;
-                let offset_factor = 0.0025 * ((ball.y - ball.height / 2) - (paddle.y - paddle.height / 2));
-                ball.direction[1] += offset_factor;
-
-                if (ball.direction[1] > 6 * ball_speed * app.height / 10000) {
-                    ball.direction[1] = 6 * ball_speed * app.height / 10000;
-                } else if (ball.direction[1] < 6 * -ball_speed * app.height / 10000) {
-                    ball.direction[1] = 6 * -ball_speed * app.height / 10000;
-                }
+                ellipseCollision(paddle, ball);
 
                 ball.x += ball.direction[0] * time;
             }

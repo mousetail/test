@@ -47,6 +47,8 @@ app.onInit = function () {
         direction: [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000]
     });
 
+    this.paused = true;
+
     app.score = [0, 0]
 };
 
@@ -60,7 +62,7 @@ function resetBall(ball) {
 
 app.onUpdate = function (time) {
     let ball = this.getNode('ball');
-    if (ball.id) {
+    if (ball.id && !app.paused) {
         ball.x += ball.direction[0] * time;
         ball.y += ball.direction[1] * time;
 
@@ -126,6 +128,9 @@ addEventListener('keydown', function (ev) {
         app.getNode(
             'left-paddle'
         ).down_pressed = true;
+    }
+    if (ev.key === ' ') {
+        app.paused ^= true;
     }
 });
 

@@ -88,6 +88,15 @@ function resetBall(ball) {
     app.getNode('right-score').text = app.score[1];
 }
 
+app.pause = function() {
+    app.paused = true;
+}
+
+app.reset = function() {
+    resetBall(app.getNode('ball'));
+    app.score = [0,0];
+}
+
 app.onUpdate = function (time) {
     let ball = this.getNode('ball');
     if (ball.id && !app.paused) {

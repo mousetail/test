@@ -16,7 +16,7 @@ function ellipseCollision(paddle, ball) {
         (ball.y + ball.height / 2 - paddle.y - paddle.height / 2) / (paddle.height)];
     let angle = Math.atan2(offset[0], offset[1]);
     let tangent = [Math.sin(angle + Math.PI / 2) * paddle.width, Math.cos(angle + Math.PI / 2) * paddle.height];
-    let normal = [-tangent[1], tangent[0]]
+    let normal = [-tangent[1], tangent[0]]; // Rotate tangent 90 degrees to get normal
     let normal_distance = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
     let normal_normalized = [normal[0] / normal_distance, normal[1] / normal_distance];
     let normal_dot_ball = normal_normalized[0] * ball.direction[0] + normal_normalized[1] * ball.direction[1] //Dot product

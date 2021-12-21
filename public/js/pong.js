@@ -18,6 +18,8 @@ app.onInit = function () {
     document.querySelector('canvas').width = window.innerWidth;
     document.querySelector('canvas').height = window.innerHeight;
 
+    app.context.font = '48px Arial';
+
     this.nodes.push({
         type: 'rect',
         id: 'left-paddle',
@@ -50,6 +52,25 @@ app.onInit = function () {
         direction: [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000]
     });
 
+    this.nodes.push({
+        type: 'text',
+        id: 'left-score',
+        x: app.width / 32,
+        y: app.height / 32,
+        color: 'black',
+        text: '0'
+    });
+
+
+    this.nodes.push({
+        type: 'text',
+        id: 'right-score',
+        x: app.width - app.width / 16,
+        y: app.height / 32,
+        color: 'black',
+        text: '0'
+    })
+
     this.paused = true;
 
     app.score = [0, 0]
@@ -61,6 +82,9 @@ function resetBall(ball) {
 
     let direction = Math.random();
     ball.direction = [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000];
+
+    app.getNode('left-score').text = app.score[0];
+    app.getNode('right-score').text = app.score[1];
 }
 
 app.onUpdate = function (time) {

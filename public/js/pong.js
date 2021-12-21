@@ -19,6 +19,7 @@ app.onInit = function () {
     document.querySelector('canvas').height = window.innerHeight;
 
     this.nodes.push({
+        type: 'rect',
         id: 'left-paddle',
         x: app.width / 30,
         y: app.height / 2 - app.height / 8,
@@ -28,6 +29,7 @@ app.onInit = function () {
     });
 
     this.nodes.push({
+        type: 'rect',
         id: 'right-paddle',
         x: app.width - app.width / 30 - app.width / 80,
         y: app.height / 2 - app.height / 8,
@@ -38,6 +40,7 @@ app.onInit = function () {
 
     let direction = Math.random();
     this.nodes.push({
+        type: 'circle',
         id: 'ball',
         x: app.width / 2 - app.width / 64,
         y: app.height / 2 - app.height / 64,

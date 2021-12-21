@@ -70,6 +70,15 @@ app.onInit = function () {
         y: app.height / 8,
         color: 'black',
         text: '0'
+    });
+
+    this.nodes.push({
+        type: 'text',
+        id: 'paused-text',
+        x: app.width / 2,
+        y: app.height / 2,
+        color: 'red',
+        text: 'Press space to start'
     })
 
     this.paused = true;
@@ -100,6 +109,8 @@ app.reset = function() {
 app.onUpdate = function (time) {
     let ball = this.getNode('ball');
     if (ball.id && !app.paused) {
+        app.getNode('paused-text').text = '';
+
         ball.x += ball.direction[0] * time;
         ball.y += ball.direction[1] * time;
 
@@ -141,7 +152,9 @@ app.onUpdate = function (time) {
                 ball.x += ball.direction[0] * time;
             }
         }
+    } else {
 
+        app.getNode('paused-text').text = 'Press space to start';
     }
 };
 

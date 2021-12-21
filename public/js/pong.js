@@ -23,6 +23,29 @@ app.onInit = function () {
 
     this.nodes.push({
         type: 'rect',
+        id: 'center-line-top',
+        x: app.width / 2 - app.width / 256,
+        y: 0,
+        width: app.width / 128,
+        height: app.height / 2 - app.height / 8,
+        color: 'black'
+    });
+
+
+    this.nodes.push({
+        type: 'rect',
+        id: 'center-line-bottom',
+        x: app.width / 2 - app.width / 256,
+        y: app.height / 2 + app.height / 8,
+        width: app.width / 128,
+        height: app.height,
+        color: 'black'
+    });
+
+
+
+    this.nodes.push({
+        type: 'rect',
         id: 'left-paddle',
         x: app.width / 30,
         y: app.height / 2 - app.height / 8,
@@ -49,7 +72,7 @@ app.onInit = function () {
         y: app.height / 2 - app.height / 64,
         width: app.width / 32,
         height: app.width / 32,
-        color: 'black',
+        color: 'red',
         direction: [direction > 0.5 ? -ball_speed : ball_speed, Math.random() * ball_speed * app.height / 1000]
     });
 
@@ -77,7 +100,7 @@ app.onInit = function () {
         id: 'paused-text',
         x: app.width / 2,
         y: app.height / 2,
-        color: 'red',
+        color: 'black',
         text: 'Press space to start'
     })
 
@@ -97,13 +120,13 @@ function resetBall(ball) {
     app.getNode('right-score').text = app.score[1];
 }
 
-app.pause = function() {
+app.pause = function () {
     app.paused = true;
 }
 
-app.reset = function() {
+app.reset = function () {
     resetBall(app.getNode('ball'));
-    app.score = [0,0];
+    app.score = [0, 0];
 }
 
 app.onUpdate = function (time) {

@@ -48,7 +48,7 @@ var app = {
                 this.context.beginPath();
                 this.context.moveTo(node.x + node.width / 2, node.y);
                 this.context.ellipse(
-                    node.x + node.width / 2, node.y,
+                    node.x  + node.width / 2, node.y + node.height / 2,
                     node.width / 2,
                     node.height / 2,
                     0,

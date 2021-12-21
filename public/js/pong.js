@@ -19,6 +19,7 @@ app.onInit = function () {
     document.querySelector('canvas').height = window.innerHeight;
 
     app.context.font = '48px Arial';
+    app.context.textAlign = 'center';
 
     this.nodes.push({
         type: 'rect',
@@ -55,8 +56,8 @@ app.onInit = function () {
     this.nodes.push({
         type: 'text',
         id: 'left-score',
-        x: app.width / 32,
-        y: app.height / 32,
+        x: app.width / 16,
+        y: app.height / 16,
         color: 'black',
         text: '0'
     });
@@ -66,7 +67,7 @@ app.onInit = function () {
         type: 'text',
         id: 'right-score',
         x: app.width - app.width / 16,
-        y: app.height / 32,
+        y: app.height / 16,
         color: 'black',
         text: '0'
     })
